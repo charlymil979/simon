@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="./assets/th.jpg" type="image/x-icon">
+  <title>Simón</title>
+  <style>
+    html {
+      margin: 0 0;
+      box-sizing: border-box;
+      background-color: darkgrey;
+    }
+
+    * {
+      box-sizing: inherit;
+    }
+
+    .container {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+
+    h1 {
+      text-align: center;
+    }
+
+    .border {
+      max-width: 520px;
+      max-height: 520px;
+      background-color: rgb(30, 30, 30);
+      position: relative;
+      margin: auto;
+      top: 15%;
+      width: 80vw;
+      height: 80vw;
+      border-radius: 25%;
+    }
+
+    .turno {
+      color: whitesmoke;
+      position: absolute;
+      text-align: center;
+      font-size: 5vw;
+      top: 25%;
+      width: 30%;
+      left: 35%;
+    }
+
+    .info {
+      color: whitesmoke;
+      position: absolute;
+      text-align: center;
+      font-size: 6vw;
+      top: 50%;
+      width: 30%;
+      left: 35%;
+    }
+
+    #red,
+    #blue,
+    #yellow,
+    #green {
+      position: absolute;
+    }
+
+    #red {
+      top: 5%;
+      left: 12.5%;
+      width: 75%;
+      max-width: 390px;
+      border-top-left-radius: 48%;
+      border-top-right-radius: 48%;
+      border-top: solid 15vw rgb(255, 0, 0);
+      border-left: solid 15vw transparent;
+      border-right: solid 15vw transparent;
+      border-bottom: solid 1px transparent;
+    }
+
+    #blue {
+      z-index: 5;
+      top: 12.5%;
+      right: 5%;
+      height: 75%;
+      max-height: 390px;
+      width: 0;
+      border-top-right-radius: 48%;
+      border-bottom-right-radius: 48%;
+      border-top: solid 15vw transparent;
+      border-left: solid 1px transparent;
+      border-right: solid 15vw rgb(0, 0, 223);
+      border-bottom: solid 15vw transparent;
+    }
+
+    #green {
+      bottom: 5%;
+      left: 12.5%;
+      width: 75%;
+      max-width: 390px;
+      height: 0;
+      border-bottom-left-radius: 48%;
+      border-bottom-right-radius: 48%;
+      border-top: solid 1px transparent;
+      border-left: solid 15vw transparent;
+      border-right: solid 15vw transparent;
+      border-bottom: solid 15vw green;
+    }
+
+    #yellow {
+      z-index: 5;
+      top: 12.5%;
+      left: 5%;
+      height: 75%;
+      max-height: 390px;
+      width: 0;
+      border-top-left-radius: 48%;
+      border-bottom-left-radius: 48%;
+      border-top: solid 15vw transparent;
+      border-left: solid 15vw rgb(206, 206, 0);
+      border-right: solid 1px transparent;
+      border-bottom: solid 15vw transparent;
+    }
+
+    .record {
+      text-align: center;
+    }
+
+    h3 {
+      position: fixed;
+      display: block;
+      width: 100%;
+      text-align: center;
+      top: calc(60vw + 12rem);
+    }
+
+    .start {
+      display: block;
+      position: relative;
+      top: 12.5%;
+      left: 12.5%;
+      z-index: 10;
+      width: 60vw;
+      height: 60vw;
+      max-height: 390px;
+      max-width: 390px;
+      background-color: orange;
+      border: solid 2rem rgb(218, 142, 1);
+      border-radius: 50%;
+      text-align: center;
+      padding: 3rem 0;
+    }
+
+    .start h2 {
+      position: relative;
+      font-size: 5vw;
+      top: 30%;
+    }
+
+    @media screen and (min-width: 700px) {
+
+      #red {
+        border-top: solid 100px rgb(255, 0, 0);
+        border-left: solid 100px transparent;
+        border-right: solid 100px transparent;
+        border-bottom: solid 1px transparent;
+      }
+
+      #blue {
+        border-top: solid 100px transparent;
+        border-left: solid 1px transparent;
+        border-right: solid 100px rgb(0, 0, 223);
+        border-bottom: solid 100px transparent;
+      }
+
+      #green {
+        border-top: solid 1px transparent;
+        border-left: solid 100px transparent;
+        border-right: solid 100px transparent;
+        border-bottom: solid 100px green;
+      }
+
+      #yellow {
+        border-top: solid 100px transparent;
+        border-left: solid 100px rgb(206, 206, 0);
+        border-right: solid 1px transparent;
+        border-bottom: solid 100px transparent;
+      }
+
+      .turno {
+        font-size: 45px;
+      }
+
+      .info {
+        font-size: 50px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Simón - El juego</h1>
+  <div class="container">
+    <div class="border">
+      <h3 class="turno">Espera...</h3>
+      <h3 class="info">SIMON</h3>
+      <div id="red"></div>
+      <div id="blue"></div>
+      <div id="green"></div>
+      <div id="yellow"></div>
+      <div class="start">
+        <h2 class="start1">Comenzar</h2>
+      </div>
+    </div>
+  </div>
+  <br>
+  <h2 class="record"></h2>
+
+  <script>
+    const d = document,
+      $start = d.querySelector(".start"),
+      $start1 = d.querySelector(".start1"),
+      $red = d.getElementById("red"),
+      $green = d.getElementById("green"),
+      $yellow = d.getElementById("yellow"),
+      $blue = d.getElementById("blue"),
+      $turno = d.querySelector(".turno")
+    $record = d.querySelector(".record")
+    $score = d.querySelector(".info"),
+      redsound = document.createElement("audio")
+    redsound.src = "./assets/0.mp3",
+      bluesound = document.createElement("audio")
+    bluesound.src = "./assets/1.mp3",
+      greensound = document.createElement("audio")
+    greensound.src = "./assets/2.mp3",
+      yellowsound = document.createElement("audio")
+    yellowsound.src = "./assets/3.mp3",
+
+      colors = {
+        0: function () {
+          $red.style.borderTopColor = "rgb(255, 100, 100)";
+          redsound.play();
+          setTimeout(() => {
+            $red.style.borderTopColor = ""
+          }, 500);
+        },
+        1: function () {
+          $blue.style.borderRightColor = "rgb(100, 100, 255)";
+          bluesound.play();
+          setTimeout(() => {
+            $blue.style.borderRightColor = ""
+          }, 500);
+        },
+        2: function () {
+          $green.style.borderBottomColor = "rgb(0, 255, 0)";
+          greensound.play();
+          setTimeout(() => {
+            $green.style.borderBottomColor = ""
+          }, 500);
+        },
+        3: function () {
+          $yellow.style.borderLeftColor = "rgb(255, 255, 110)";
+          yellowsound.play();
+          setTimeout(() => {
+            $yellow.style.borderLeftColor = ""
+          }, 500);
+        },
+      }
+
+    play = function (colors) {
+      // console.log(cpu);
+      setTimeout(() => {
+        $turno.innerHTML = "Espera..."
+      }, 300);
+      cpu.push(Math.floor(Math.random() * 4))
+      setTimeout(() => {
+        cpu.forEach((el, i) => {
+          // console.log(cpu, i)
+          setTimeout(() => {
+            colors[el]();
+            // console.log(el)
+          }, (i + 1) * 700);
+        })
+
+      }, 500);
+      setTimeout(() => {
+        $turno.innerHTML = "Tu turno"
+      }, (cpu.length) * 800 + 700);
+    },
+
+      compare = function () {
+        if (cpu[counter] !== player) {
+          counter = 0;
+          cpu = [];
+          setTimeout(() => {
+            $start.style.display = "block"
+            $score.innerHTML = 0
+          }, 400);
+          return
+        } else {
+          counter++;
+          if (counter === cpu.length) {
+            console.log("vas bien");
+            setTimeout(() => {
+              $score.innerHTML = cpu.length - 1;
+            }, 300);
+            if (counter > max) max = counter;
+            $record.innerHTML = `Mejor Juego: ${max}`
+            play(colors);
+            counter = 0;
+          }
+        }
+      };
+    let cpu = [],
+      counter = 0
+    player = 0,
+      max = 0
+
+    d.addEventListener("click", e => {
+      switch (e.target) {
+        case $start:
+          e.target.style.display = "none";
+          play(colors);
+          break;
+
+        case $start1:
+          $start.style.display = "none";
+          play(colors);
+          break;
+
+        case $red:
+          colors[0]();
+          player = 0;
+          compare();
+          break;
+
+        case $green:
+          colors[2]();
+          player = 2;
+          compare();
+          break;
+
+        case $blue:
+          colors[1]();
+          player = 1;
+          compare();
+          break;
+
+        case $yellow:
+          colors[3]();
+          player = 3;
+          compare();
+          break;
+
+        default:
+          break;
+      };
+    });
+    d.addEventListener("keydown", e => {
+      console.log(e.key);
+      switch (e.key) {
+        case "Enter":
+          $start.style.display = "none";
+          play(colors);
+          break;
+
+        case "ArrowUp":
+          colors[0]();
+          player = 0;
+          compare();
+          break;
+
+        case "ArrowDown":
+          colors[2]();
+          player = 2;
+          compare();
+          break;
+
+        case "ArrowRight":
+          colors[1]();
+          player = 1;
+          compare();
+          break;
+
+        case "ArrowLeft":
+          colors[3]();
+          player = 3;
+          compare();
+          break;
+
+        default:
+          break;
+      };
+    })
+
+
+  </script>
+</body>
+
+</html>
